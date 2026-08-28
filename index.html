@@ -30,7 +30,10 @@
   --ease-io:cubic-bezier(0.77,0,0.175,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+/* Lenis owns scrolling — CSS smooth-behavior would fight it and freeze the wheel */
+html{scroll-behavior:auto}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
 body{
   font-family:var(--fb);color:var(--ink);background:var(--canvas);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
@@ -1358,6 +1361,16 @@ if (!prefersReduced && typeof Lenis !== 'undefined' && JUMP === null){
 }
 gsap.registerPlugin(ScrollTrigger);
 
+/* hero exit: gentle depth as you leave the fold (GSAP owns these transforms) */
+if (!prefersReduced){
+  gsap.to('#stage', { y: 90, ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('#ghostWord', { yPercent: -40, ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.scroll-cue', { opacity: 0, ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: '25% top', scrub: true } });
+}
+
 gsap.utils.toArray('.rv').forEach(function(el){
   ScrollTrigger.create({
     trigger: el, start:'top 88%', once:true,
@@ -1466,7 +1479,7 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
     e.preventDefault();
     mobileMenuEl.classList.remove('open');
     burgerEl.setAttribute('aria-expanded','false');
-    if (lenis) lenis.scrollTo(target, { offset: id === '#top' ? 0 : -20 });
+    if (lenis) lenis.scrollTo(target, { offset: id === '#top' ? 0 : -71 });
     else target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth' });
   });
 });
