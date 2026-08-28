@@ -65,6 +65,12 @@ a{color:inherit}
   border-bottom:1px solid var(--hairline);
 }
 .nav-logo{display:inline-flex;flex:none;text-decoration:none}
+/* reading-progress hairline riding the nav's bottom edge */
+.nav-progress{
+  position:absolute;left:0;bottom:-1px;height:2px;width:100%;
+  background:linear-gradient(90deg,#FF8A3D,var(--orange));
+  transform:scaleX(0);transform-origin:left;pointer-events:none;
+}
 .nav-links{display:flex;gap:28px;margin-left:auto}
 .nav-links a{
   position:relative;font-size:13.5px;font-weight:500;color:var(--slate);
@@ -425,6 +431,7 @@ h1 .emphasis .swash{
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .belt-track{animation:none}
+  .vid-shell::after{animation:none;display:none}
   .scroll-cue .line::after{animation:none}
   .rm-final{opacity:1!important;transform:none!important}
 }
@@ -662,7 +669,21 @@ section{position:relative}
 #media .h2{color:#fff}
 #media .sec-intro{color:rgba(255,255,255,.62)}
 .media-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-top:56px;align-items:stretch}
-.vid-shell{border-radius:12px;padding:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09)}
+.vid-shell{border-radius:12px;padding:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);position:relative}
+/* Magic UI border-beam, adapted: a slow orange spark circling the feature player */
+@property --beam-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+.vid-shell::after{
+  content:"";position:absolute;inset:-1px;border-radius:13px;padding:1.5px;
+  background:conic-gradient(from var(--beam-a),
+    transparent 0deg, transparent 300deg,
+    rgba(255,138,61,.15) 322deg, rgba(255,106,0,.95) 342deg,
+    rgba(255,138,61,.15) 356deg, transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:beam 8s linear infinite;pointer-events:none;
+}
+@keyframes beam{to{--beam-a:360deg}}
+@supports not (background:conic-gradient(from var(--beam-a),#000,#fff)){.vid-shell::after{display:none}}
 .vid-core{
   position:relative;border-radius:8px;overflow:hidden;height:100%;min-height:380px;
   background:linear-gradient(160deg,#12294a,#050D1C);
@@ -917,6 +938,7 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span>
   </button>
+  <span class="nav-progress" id="navProgress" aria-hidden="true"></span>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <a href="#top">Home</a>
@@ -1331,7 +1353,10 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
 
   /* trust belt — canon items */
   var TRUST = ['FranServe Certified Consultant','Second-Generation Franchising','Hundreds of Vetted Brands','SBA + ROBS Financing Ready','Nationwide Coverage','Free To Clients, Always'];
+  /* each track carries the list TWICE so the loop never runs out of content,
+     even on ultrawide monitors (a single pass is ~2300px; 3440px screens exist) */
   var beltHTML = TRUST.map(function(t, i){ return '<span class="belt-item"><span class="bi-n">0' + (i + 1) + '</span>' + t + '</span>'; }).join('');
+  beltHTML = beltHTML + beltHTML;
   document.getElementById('beltA').innerHTML = beltHTML;
   document.getElementById('beltB').innerHTML = beltHTML;
 
@@ -1463,8 +1488,11 @@ var EPISODES = [
 function epCard(e){
   return '<div class="ep-card"><div class="ep-img"><img src="assets/eps/'+e[0]+'.jpg" alt="" loading="eager" decoding="async"></div><div class="ep-t">'+e[1]+'</div></div>';
 }
+/* double each row's content so the loop stays seamless on any monitor width */
 var rowA = EPISODES.slice(0,7).map(epCard).join('');
 var rowB = EPISODES.slice(7).map(epCard).join('');
+rowA = rowA + rowA;
+rowB = rowB + rowB;
 document.getElementById('epTrackA').outerHTML = '<div class="ep-track">'+rowA+'</div><div class="ep-track" aria-hidden="true">'+rowA+'</div>';
 document.getElementById('epTrackB').outerHTML = '<div class="ep-track">'+rowB+'</div><div class="ep-track" aria-hidden="true">'+rowB+'</div>';
 
@@ -1542,6 +1570,22 @@ gsap.utils.toArray('.count').forEach(function(el){
     }
   });
 });
+
+/* reading progress hairline (rAF-throttled native scroll listener) */
+(function(){
+  var bar = document.getElementById('navProgress');
+  if (!bar) return;
+  var ticking = false;
+  function paint(){
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, scrollY / max) : 0) + ')';
+    ticking = false;
+  }
+  addEventListener('scroll', function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(paint); }
+  }, { passive: true });
+  paint();
+})();
 
 /* nav theme over the navy sections */
 var nav = document.getElementById('nav');
