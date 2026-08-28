@@ -30,10 +30,10 @@
   --ease-io:cubic-bezier(0.77,0,0.175,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-/* Lenis owns scrolling — CSS smooth-behavior would fight it and freeze the wheel */
-html{scroll-behavior:auto}
-html.lenis,html.lenis body{height:auto}
-.lenis.lenis-smooth{scroll-behavior:auto!important}
+/* Native scrolling only — no wheel capture, no scroll-hijacking, ever.
+   Anchor glides come from scroll-behavior + scroll-margin, not JS. */
+html{scroll-behavior:smooth}
+section[id],footer{scroll-margin-top:70px}
 body{
   font-family:var(--fb);color:var(--ink);background:var(--canvas);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
@@ -1196,7 +1196,6 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script>
 (function(){
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1352,13 +1351,7 @@ var rowB = EPISODES.slice(7).map(epCard).join('');
 document.getElementById('epTrackA').outerHTML = '<div class="ep-track">'+rowA+'</div><div class="ep-track" aria-hidden="true">'+rowA+'</div>';
 document.getElementById('epTrackB').outerHTML = '<div class="ep-track">'+rowB+'</div><div class="ep-track" aria-hidden="true">'+rowB+'</div>';
 
-var lenis = null;
-if (!prefersReduced && typeof Lenis !== 'undefined' && JUMP === null){
-  lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add(function(t){ lenis.raf(t*1000); });
-  gsap.ticker.lagSmoothing(0);
-}
+/* Native scroll. ScrollTrigger listens to the real scroll position directly. */
 gsap.registerPlugin(ScrollTrigger);
 
 /* hero exit: gentle depth as you leave the fold (GSAP owns these transforms) */
@@ -1437,9 +1430,9 @@ gsap.utils.toArray('.count').forEach(function(el){
 var nav = document.getElementById('nav');
 ['media','contact'].forEach(function(id){
   ScrollTrigger.create({
-    trigger:'#'+id, start:'top 60px', end:'bottom 60px',
+    trigger:'#'+id, start:'top 72px', end:'bottom 72px',
     onToggle:function(self){ if(self.isActive) nav.classList.add('on-dark'); else {
-      var over = ['media','contact'].some(function(o){ var el=document.getElementById(o); var r=el.getBoundingClientRect(); return r.top<60 && r.bottom>60; });
+      var over = ['media','contact'].some(function(o){ var el=document.getElementById(o); var r=el.getBoundingClientRect(); return r.top<72 && r.bottom>72; });
       if(!over) nav.classList.remove('on-dark');
     } }
   });
@@ -1467,20 +1460,14 @@ if (homeLink){
   });
 });
 
-/* anchors through lenis */
+/* anchors: native smooth scroll (scroll-margin-top handles the nav offset);
+   just close the mobile menu on the way */
 var burgerEl = document.getElementById('burger');
 var mobileMenuEl = document.getElementById('mobileMenu');
 document.querySelectorAll('a[href^="#"]').forEach(function(a){
-  a.addEventListener('click', function(e){
-    var id = a.getAttribute('href');
-    if (id.length < 2) return;
-    var target = document.querySelector(id);
-    if (!target) return;
-    e.preventDefault();
+  a.addEventListener('click', function(){
     mobileMenuEl.classList.remove('open');
     burgerEl.setAttribute('aria-expanded','false');
-    if (lenis) lenis.scrollTo(target, { offset: id === '#top' ? 0 : -71 });
-    else target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth' });
   });
 });
 
@@ -1534,10 +1521,10 @@ vidPosterImg.addEventListener('error', function(){
 /* settle contract for headless capture */
 function settle(){
   if (JUMP !== null){
-    scrollTo(0, +JUMP || 0);
+    scrollTo({ top: +JUMP || 0, left: 0, behavior: 'instant' });
     ScrollTrigger.update();
     ScrollTrigger.refresh();
-    scrollTo(0, +JUMP || 0);
+    scrollTo({ top: +JUMP || 0, left: 0, behavior: 'instant' });
     document.querySelectorAll('.rv').forEach(function(el){
       var r = el.getBoundingClientRect();
       if (r.top < innerHeight) el.classList.add('in');
