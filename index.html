@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JD Strategic Franchising · Stop Building Someone Else's Dream</title>
 <meta name="description" content="Josh DuBois helps you find, vet, and own the right franchise. Free to clients, always.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="JD Strategic Franchising">
+<meta property="og:title" content="Stop Building Someone Else's Dream. Start Owning Yours.">
+<meta property="og:description" content="Josh DuBois helps you find, vet, and own the right franchise. 3 to 5 vetted matches, built around you. Free to clients, always.">
+<meta property="og:url" content="https://javmartz04-ship-it.github.io/jd-strategic-hero/">
+<meta property="og:image" content="https://javmartz04-ship-it.github.io/jd-strategic-hero/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stop Building Someone Else's Dream. Start Owning Yours.">
+<meta name="twitter:description" content="Josh DuBois helps you find, vet, and own the right franchise. Free to clients, always.">
+<meta name="twitter:image" content="https://javmartz04-ship-it.github.io/jd-strategic-hero/assets/og.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Crect x='1' y='1' width='42' height='42' fill='%230A1D3A'/%3E%3Crect x='5.5' y='5.5' width='33' height='33' fill='none' stroke='%23FFFFFF' stroke-width='1.2'/%3E%3Ctext x='22' y='29.5' text-anchor='middle' font-family='sans-serif' font-weight='800' font-size='17' fill='%23FFFFFF'%3EJD%3C/text%3E%3Cpath d='M44.5 20 v22 h-22' stroke='%23FF6A00' stroke-width='2.6' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,6 +85,16 @@ a{color:inherit}
   transition:background .3s var(--ease-out),box-shadow .3s var(--ease-out);
 }
 .nav-cta:hover{background:var(--orange);box-shadow:0 10px 26px -8px rgba(255,106,0,.55)}
+.nav-phone{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--fm);font-size:12px;font-weight:500;letter-spacing:.06em;
+  color:var(--slate);text-decoration:none;white-space:nowrap;
+  transition:color .25s var(--ease-out);
+}
+.nav-phone svg{flex:none}
+.nav-phone:hover{color:var(--orange)}
+.nav.on-dark .nav-phone{color:rgba(255,255,255,.78)}
+@media (max-width:1360px){.nav-phone{display:none}}
 .burger{
   display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;
   padding:8px;margin-left:auto;
@@ -741,18 +763,40 @@ section{position:relative}
 .finale .risk{color:rgba(255,255,255,.42)}
 .finale .btn-ghost{color:rgba(255,255,255,.85);border-color:rgba(255,255,255,.22)}
 .finale .btn-ghost:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.06)}
-.fin-contact{
-  display:flex;flex-wrap:wrap;gap:30px;margin-top:54px;
-  font-family:var(--fm);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;
+/* three real ways to reach Josh — tappable tiles, not text links */
+.fin-tiles{display:flex;flex-wrap:wrap;gap:14px;margin-top:52px}
+.ftile{
+  display:flex;align-items:center;gap:14px;text-decoration:none;
+  padding:15px 22px 15px 15px;border-radius:11px;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);
+  transition:border-color .3s var(--ease-out),background .3s var(--ease-out),transform .25s var(--ease-out);
 }
-.fin-contact a{color:rgba(255,255,255,.55);text-decoration:none;transition:color .3s var(--ease-out)}
-.fin-contact a:hover{color:var(--orange)}
+.ftile:hover{border-color:rgba(255,106,0,.55);background:rgba(255,106,0,.07);transform:translateY(-2px)}
+.ftile .ft-ic{
+  width:40px;height:40px;border-radius:8px;flex:none;
+  background:rgba(255,106,0,.14);color:#FFB27A;
+  display:flex;align-items:center;justify-content:center;
+}
+.ftile .ft-k{
+  display:block;font-family:var(--fm);font-size:9px;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(255,255,255,.45);
+}
+.ftile .ft-v{display:block;font-family:var(--fd);font-size:14.5px;font-weight:600;color:#fff;margin-top:4px}
+@media (max-width:640px){.fin-tiles{flex-direction:column}.ftile{width:100%}}
 
 /* ---------- footer ---------- */
 footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;border-top:1px solid rgba(255,255,255,.06)}
 .foot-main{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:50px;padding:74px 0 60px;position:relative;z-index:2}
 .foot-brand svg{height:38px;width:auto}
 .foot-brand p{font-size:14.5px;line-height:1.65;color:rgba(255,255,255,.55);margin-top:20px;max-width:330px}
+.foot-social{display:flex;gap:10px;margin-top:24px}
+.fs-btn{
+  width:38px;height:38px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.7);
+  display:flex;align-items:center;justify-content:center;
+  transition:color .3s var(--ease-out),border-color .3s var(--ease-out),background .3s var(--ease-out);
+}
+.fs-btn:hover{color:#fff;border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.1)}
 .foot-col h4{font-family:var(--fm);font-size:10.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.4)}
 .foot-col ul{list-style:none;margin-top:20px;display:grid;gap:12px}
 .foot-col a{font-size:14.5px;color:rgba(255,255,255,.75);text-decoration:none;transition:color .3s var(--ease-out)}
@@ -841,6 +885,10 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
     <a href="#media">Podcast</a>
     <a href="#about">About Josh</a>
   </div>
+  <a class="nav-phone" href="tel:+17867890744" aria-label="Call JD Strategic">
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 1.5h3l1.2 3.2-1.7 1.3a9.5 9.5 0 0 0 3.5 3.5l1.3-1.7 3.2 1.2v3a1 1 0 0 1-1 1C6.4 12.8 1.2 7.6 1 2.5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="miter"/></svg>
+    (786) 789-0744
+  </a>
   <a class="nav-cta" href="#contact">Schedule My Free Consultation</a>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span>
@@ -1159,10 +1207,19 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
         </a>
       </div>
       <p class="risk rv rv-d3">Free consultation · No obligation</p>
-      <div class="fin-contact rv rv-d3">
-        <a href="tel:+17867890744">(786) 789-0744</a>
-        <a href="mailto:josh@jdfranchising.com">josh@jdfranchising.com</a>
-        <a href="https://instagram.com/jdstrategic" target="_blank" rel="noopener">@jdstrategic</a>
+      <div class="fin-tiles rv rv-d3">
+        <a class="ftile" href="tel:+17867890744">
+          <span class="ft-ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 14 14" fill="none"><path d="M2 1.5h3l1.2 3.2-1.7 1.3a9.5 9.5 0 0 0 3.5 3.5l1.3-1.7 3.2 1.2v3a1 1 0 0 1-1 1C6.4 12.8 1.2 7.6 1 2.5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="miter"/></svg></span>
+          <span><span class="ft-k">Call Josh directly</span><span class="ft-v">(786) 789-0744</span></span>
+        </a>
+        <a class="ftile" href="mailto:josh@jdfranchising.com">
+          <span class="ft-ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3" width="13" height="10" stroke="currentColor" stroke-width="1.3"/><path d="M2 4l6 5 6-5" stroke="currentColor" stroke-width="1.3"/></svg></span>
+          <span><span class="ft-k">Email</span><span class="ft-v">josh@jdfranchising.com</span></span>
+        </a>
+        <a class="ftile" href="https://instagram.com/jdstrategic" target="_blank" rel="noopener">
+          <span class="ft-ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="1.5" width="13" height="13" rx="3.5" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="3.1" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="4" r="1" fill="currentColor"/></svg></span>
+          <span><span class="ft-k">DM on Instagram</span><span class="ft-v">@jdstrategic</span></span>
+        </a>
       </div>
     </div>
   </div>
@@ -1186,6 +1243,14 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
           <path d="M164 42.5 h26" stroke="#FF6A00" stroke-width="2"/>
         </svg>
         <p>Helping aspiring owners find, vet, and acquire the right franchise with structure, transparency, and real-world insight.</p>
+        <div class="foot-social">
+          <a class="fs-btn" href="https://instagram.com/jdstrategic" target="_blank" rel="noopener" aria-label="JD Strategic on Instagram">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="3.5" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="3.1" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="4" r="1" fill="currentColor"/></svg>
+          </a>
+          <a class="fs-btn" href="https://www.linkedin.com/company/jdstrategic" target="_blank" rel="noopener" aria-label="JD Strategic on LinkedIn">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M4.6 7v4.4M4.6 4.7v.1M7.4 11.4V8.6c0-.9.7-1.6 1.6-1.6s1.6.7 1.6 1.6v2.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </a>
+        </div>
       </div>
       <div class="foot-col">
         <h4>Explore</h4>
