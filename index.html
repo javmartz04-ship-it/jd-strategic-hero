@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JD Strategic Franchising · Stop Building Someone Else's Dream</title>
+<meta name="description" content="Josh DuBois helps you find, vet, and own the right franchise. Free to clients, always.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Crect x='1' y='1' width='42' height='42' fill='%230A1D3A'/%3E%3Crect x='5.5' y='5.5' width='33' height='33' fill='none' stroke='%23FFFFFF' stroke-width='1.2'/%3E%3Ctext x='22' y='29.5' text-anchor='middle' font-family='sans-serif' font-weight='800' font-size='17' fill='%23FFFFFF'%3EJD%3C/text%3E%3Cpath d='M44.5 20 v22 h-22' stroke='%23FF6A00' stroke-width='2.6' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,700;1,800&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0A1D3A;
+  --navy-deep:#071427;
+  --ink:#0A1D3A;
+  --slate:#36506B;
+  --body:#44566C;
+  --muted:#7E8CA0;
+  --faint:#A9B4C4;
+  --hairline:#E7EBF0;
+  --canvas:#FFFFFF;
+  --porcelain:#F7F8FA;
+  --orange:#FF6A00;
+  --orange-deep:#E55F00;
+  --fd:'Poppins',sans-serif;
+  --fb:'Inter',sans-serif;
+  --fm:'Space Grotesk',monospace,sans-serif;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --ease-io:cubic-bezier(0.77,0,0.175,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--fb);color:var(--ink);background:var(--canvas);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:2px}
+::selection{background:rgba(255,106,0,.18)}
+
+/* ================= NAV ================= */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:flex;align-items:center;gap:34px;
+  padding:15px clamp(20px,4vw,56px);
+  background:rgba(255,255,255,.8);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--hairline);
+}
+.nav-logo{display:inline-flex;flex:none;text-decoration:none}
+.nav-links{display:flex;gap:28px;margin-left:auto}
+.nav-links a{
+  position:relative;font-size:13.5px;font-weight:500;color:var(--slate);
+  text-decoration:none;padding:6px 0;letter-spacing:.01em;transition:color .25s var(--ease-out);
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:var(--orange);transform:scaleX(0);transform-origin:left;
+  transition:transform .3s var(--ease-out);
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+.nav-links a.active{color:var(--ink)}
+.nav-cta{
+  font-family:var(--fd);font-size:13px;font-weight:600;text-decoration:none;color:#fff;
+  background:var(--navy);border:1px solid transparent;border-radius:9px;
+  padding:11px 22px;white-space:nowrap;
+  transition:background .3s var(--ease-out),box-shadow .3s var(--ease-out);
+}
+.nav-cta:hover{background:var(--orange);box-shadow:0 10px 26px -8px rgba(255,106,0,.55)}
+.burger{
+  display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;
+  padding:8px;margin-left:auto;
+}
+.burger span{display:block;width:22px;height:2px;background:var(--ink);transition:transform .3s var(--ease-out)}
+.burger[aria-expanded="true"] span:first-child{transform:translateY(3.5px) rotate(45deg)}
+.burger[aria-expanded="true"] span:last-child{transform:translateY(-3.5px) rotate(-45deg)}
+.mobile-menu{
+  position:fixed;inset:0;z-index:59;background:rgba(255,255,255,.97);
+  display:flex;flex-direction:column;justify-content:center;gap:4px;
+  padding:0 28px;opacity:0;visibility:hidden;transition:opacity .35s var(--ease-out),visibility .35s;
+}
+.mobile-menu.open{opacity:1;visibility:visible}
+.mobile-menu a{
+  font-family:var(--fd);font-size:30px;font-weight:700;letter-spacing:-.01em;
+  color:var(--ink);text-decoration:none;padding:12px 0;border-bottom:1px solid var(--hairline);
+}
+.mobile-menu a.mm-cta{
+  font-size:15px;font-weight:600;color:#fff;background:var(--navy);border:0;border-radius:9px;
+  text-align:center;padding:16px 20px;margin-top:22px;
+}
+
+/* ================= HERO ================= */
+.hero{
+  position:relative;min-height:100svh;overflow:hidden;
+  background:var(--canvas);
+}
+/* warm ambient glow behind Josh — lives INSIDE .stage so it tracks him at every viewport */
+.glow{
+  position:absolute;z-index:0;pointer-events:none;
+  left:-30%;right:-34%;top:-6%;bottom:-14%;
+  background:radial-gradient(48% 42% at 52% 58%, rgba(255,106,0,.14), rgba(255,138,61,.05) 55%, transparent 75%);
+}
+/* giant outline ghost word, drifts slowly behind Josh */
+.ghost-word{
+  position:absolute;z-index:1;left:0;top:36%;white-space:nowrap;pointer-events:none;
+  font-family:var(--fd);font-weight:800;font-size:clamp(140px,19vw,270px);line-height:1;
+  letter-spacing:.02em;color:transparent;
+  -webkit-text-stroke:1.5px #E3E9F0;
+  user-select:none;will-change:transform;
+}
+.ghost-word .solid{color:#F4F7FA;-webkit-text-stroke:0}
+
+.hero-wrap{
+  position:relative;z-index:5;width:100%;max-width:1440px;margin:0 auto;
+  min-height:100svh;
+  display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);
+  padding:88px clamp(20px,4vw,56px) 0;
+}
+
+/* ---------- copy ---------- */
+.hero-copy{
+  align-self:center;position:relative;z-index:6;
+  padding:24px 0 120px;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:11px;
+  font-family:var(--fm);font-size:11px;font-weight:500;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--slate);
+}
+.eyebrow .tick{width:8px;height:8px;background:var(--orange);flex:none}
+h1{
+  font-family:var(--fd);font-weight:800;
+  font-size:clamp(38px,4.55vw,66px);
+  line-height:1.05;letter-spacing:-.022em;
+  color:var(--ink);margin-top:20px;
+}
+h1 .hl{display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.18em}
+h1 .hl > span{display:inline-block;will-change:transform}
+h1 .emphasis{
+  font-style:italic;font-weight:800;color:var(--orange);position:relative;
+}
+h1 .emphasis .swash{
+  position:absolute;left:0;right:.12em;bottom:-.14em;height:.09em;
+  background:linear-gradient(90deg,#FF8A3D,var(--orange));
+  transform:scaleX(0);transform-origin:left;border-radius:2px;
+}
+.hero-lead{
+  font-size:clamp(15.5px,1.2vw,17.5px);line-height:1.62;color:var(--body);
+  max-width:27.5rem;margin-top:clamp(16px,2.4vh,26px);
+}
+.hero-lead strong{color:var(--ink);font-weight:600}
+.hero-cta-row{
+  display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;
+  margin-top:clamp(22px,3vh,32px);
+}
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--fd);font-size:15.5px;font-weight:600;color:#fff;text-decoration:none;
+  background:linear-gradient(135deg,var(--orange) 0%,var(--orange-deep) 100%);
+  border-radius:9px;padding:17px 32px;
+  box-shadow:0 14px 34px -12px rgba(255,106,0,.55);
+  transition:box-shadow .25s var(--ease-out);
+  will-change:transform;
+}
+.btn:hover{box-shadow:0 22px 48px -14px rgba(255,106,0,.62)}
+.btn .btn-ic{display:inline-flex;transition:transform .25s var(--ease-out)}
+.btn:hover .btn-ic{transform:translateX(3px)}
+.btn-ghost{
+  display:inline-flex;align-items:center;
+  font-family:var(--fd);font-size:14.5px;font-weight:500;color:var(--ink);text-decoration:none;
+  background:rgba(255,255,255,.8);border:1px solid var(--hairline);border-radius:9px;padding:16px 24px;
+  transition:border-color .25s var(--ease-out),transform .25s var(--ease-out);
+}
+.btn-ghost:hover{border-color:var(--slate);transform:translateY(-2px)}
+.risk{
+  font-family:var(--fm);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-top:15px;
+}
+
+/* ---------- Josh, integrated ---------- */
+.stage{
+  position:relative;z-index:3;
+  align-self:end;justify-self:center;
+  width:100%;max-width:640px;
+  height:min(88vh,780px);
+  pointer-events:none;
+}
+.josh-wrap{
+  /* centered by flex, never by transform — GSAP owns this node's transform */
+  position:absolute;left:0;right:0;bottom:0;z-index:1;
+  height:100%;display:flex;align-items:flex-end;justify-content:center;
+  will-change:transform;
+}
+.josh{
+  height:100%;width:auto;max-width:none;
+  filter:drop-shadow(0 34px 60px rgba(10,29,58,.30));
+}
+/* soft floor fade so his crop line melts into the page edge */
+.stage::after{
+  content:"";position:absolute;left:-10%;right:-10%;bottom:-2px;height:70px;z-index:5;
+  background:linear-gradient(to top, var(--canvas) 12%, transparent);
+}
+
+/* floating cards — glass, tied into his silhouette */
+.fcard{
+  position:absolute;z-index:6;pointer-events:auto;
+  background:rgba(255,255,255,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(231,235,240,.9);border-radius:12px;
+  box-shadow:0 24px 54px -22px rgba(10,29,58,.28);
+  padding:16px 20px;will-change:transform;
+}
+.fcard::before{
+  content:"";position:absolute;left:0;top:0;right:0;height:3px;border-radius:12px 12px 0 0;
+  background:linear-gradient(90deg,#FF8A3D,var(--orange));
+}
+.fcard .fnum{
+  font-family:var(--fm);font-weight:700;font-size:30px;letter-spacing:-.02em;
+  color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;
+}
+.fcard .fnum .sfx{color:var(--orange)}
+.fcard .flbl{
+  font-family:var(--fm);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-top:7px;line-height:1.7;max-width:150px;
+}
+.fcard.c-loc{left:0;top:24%}
+.fcard.c-match{right:-14px;top:47%}
+.chip-free{
+  position:absolute;z-index:6;right:34px;top:30%;pointer-events:auto;
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--fm);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#fff;
+  background:var(--navy);border-radius:8px;padding:10px 15px;
+  box-shadow:0 18px 40px -16px rgba(7,20,39,.45);will-change:transform;
+}
+.chip-free .dot{width:7px;height:7px;background:var(--orange);flex:none}
+.nameplate{
+  position:absolute;z-index:6;left:8%;bottom:86px;pointer-events:auto;
+  display:inline-flex;align-items:center;gap:11px;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(231,235,240,.9);border-radius:11px;
+  padding:10px 16px 10px 10px;box-shadow:0 20px 44px -18px rgba(10,29,58,.25);
+  will-change:transform;
+}
+.nameplate img{width:38px;height:38px;border-radius:8px;object-fit:cover}
+.nameplate .np-n{font-family:var(--fd);font-size:13px;font-weight:700;color:var(--ink);line-height:1.2}
+.nameplate .np-r{font-family:var(--fm);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-top:2px}
+
+/* ---------- trust marquee, passes BEHIND Josh ---------- */
+.belt{
+  position:absolute;z-index:2;left:0;right:0;bottom:0;
+  border-top:1px solid var(--hairline);
+  background:rgba(247,248,250,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  overflow:hidden;display:flex;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.belt-track{
+  display:flex;flex:none;align-items:center;gap:54px;
+  padding:26px 27px;
+  animation:belt 30s linear infinite;
+}
+@keyframes belt{to{transform:translateX(-100%)}}
+.belt-item{
+  display:inline-flex;align-items:center;gap:13px;flex:none;
+  font-family:var(--fm);font-size:11px;font-weight:500;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--slate);white-space:nowrap;
+}
+.belt-item .sq{width:7px;height:7px;background:var(--orange);flex:none}
+
+/* scroll cue */
+.scroll-cue{
+  position:absolute;z-index:6;left:clamp(20px,4vw,56px);bottom:104px;
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--fm);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+}
+.scroll-cue .line{position:relative;width:52px;height:1px;background:var(--hairline);overflow:hidden}
+.scroll-cue .line::after{
+  content:"";position:absolute;left:0;top:0;height:100%;width:18px;background:var(--orange);
+  animation:cue 2.2s var(--ease-io) infinite;
+}
+@keyframes cue{0%{transform:translateX(-20px)}100%{transform:translateX(60px)}}
+
+/* ================= RESPONSIVE ================= */
+/* big monitors: scale the whole composition up so it never floats in white space */
+@media (min-width:1700px){
+  .hero-wrap{max-width:1660px}
+  .eyebrow{font-size:12px}
+  h1{font-size:clamp(66px,3.05vw,80px)}
+  .hero-lead{font-size:19px;max-width:31rem}
+  .btn{font-size:17px;padding:20px 40px}
+  .btn-ghost{font-size:15.5px;padding:19px 30px}
+  .risk{font-size:12px}
+  .stage{max-width:800px;height:min(88vh,940px)}
+  .fcard{padding:20px 26px;border-radius:14px}
+  .fcard .fnum{font-size:38px}
+  .fcard .flbl{font-size:10.5px;max-width:180px;margin-top:9px}
+  .fcard.c-loc{left:-14px}
+  .chip-free{font-size:11px;padding:12px 18px;right:44px}
+  .nameplate{padding:12px 20px 12px 12px;bottom:96px}
+  .nameplate img{width:46px;height:46px}
+  .nameplate .np-n{font-size:15px}
+  .nameplate .np-r{font-size:9.5px}
+  .ghost-word{font-size:clamp(240px,15.5vw,360px);-webkit-text-stroke-width:2px}
+  .belt-track{padding:30px 32px;gap:64px}
+  .belt-item{font-size:12px}
+  .scroll-cue{bottom:112px}
+}
+/* nav collapses first; the split hero layout survives down to 800px */
+@media (max-width:1120px){
+  .nav-links,.nav-cta{display:none}
+  .burger{display:flex}
+}
+/* mid-width windows (small laptop, half-screen, zoomed browser): keep the split, scale it */
+@media (min-width:801px) and (max-width:1180px){
+  h1{font-size:clamp(34px,4.3vw,52px)}
+  .stage{height:min(80vh,72vw)}
+  .fcard .fnum{font-size:25px}
+  .fcard{padding:13px 16px}
+  .fcard .flbl{max-width:130px}
+  .fcard.c-loc{left:6px}
+  .fcard.c-match{right:-6px}
+  .nameplate{bottom:80px;left:4%}
+  .scroll-cue{display:none}
+}
+/* short windows: tighten the vertical budget so nothing spills below the fold */
+@media (min-width:801px) and (max-height:820px){
+  .hero-wrap{padding-top:76px}
+  .hero-copy{padding-bottom:104px}
+  h1{font-size:clamp(32px,min(4.55vw,7.4vh),66px);margin-top:14px}
+  .hero-lead{margin-top:14px}
+  .hero-cta-row{margin-top:18px}
+  .risk{margin-top:12px}
+  .belt-track{padding:20px 24px}
+  .scroll-cue{bottom:88px}
+}
+@media (max-width:800px){
+  .hero-wrap{grid-template-columns:minmax(0,1fr);padding-top:80px}
+  .hero-copy{align-self:start;padding:26px 0 0;max-width:620px}
+  .stage{height:min(64vh,560px);max-width:520px;margin-top:18px}
+  .fcard.c-loc{left:0}
+  .fcard.c-match{right:0}
+  .nameplate{display:none}
+  .scroll-cue{display:none}
+  .ghost-word{top:auto;bottom:26%}
+  .hero{padding-bottom:0}
+}
+@media (max-width:640px){
+  h1{font-size:clamp(25px,7.4vw,38px);letter-spacing:-.018em}
+  .btn,.btn-ghost{width:100%;justify-content:center}
+  .btn{font-size:14.5px;padding:16px 18px;gap:9px}
+  .btn-ghost{font-size:14px;padding:15px 18px}
+  .stage{height:min(58vh,470px);max-width:100%}
+  .fcard{padding:12px 15px}
+  .fcard .fnum{font-size:23px}
+  .fcard .flbl{font-size:8px;max-width:120px}
+  .fcard.c-loc{left:-4px;top:18%}
+  .fcard.c-match{right:-4px;top:44%}
+  .chip-free{display:none}
+  .belt-track{padding:20px 22px;gap:40px}
+  .ghost-word{font-size:120px;-webkit-text-stroke-width:1.2px}
+}
+
+/* ================= REDUCED MOTION ================= */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .belt-track{animation:none}
+  .scroll-cue .line::after{animation:none}
+  .rm-final{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" aria-label="Main">
+  <a class="nav-logo" href="#top" aria-label="JD Strategic Franchising, back to top">
+    <svg width="172" height="39" viewBox="0 0 196 44" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JD Strategic Franchising logo">
+      <rect x="1" y="1" width="42" height="42" fill="#0A1D3A"/>
+      <rect x="5.5" y="5.5" width="33" height="33" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+      <text x="22" y="29.5" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="17" fill="#FFFFFF">JD</text>
+      <path d="M44.5 20 v22 h-22" stroke="#FF6A00" stroke-width="2.6" fill="none"/>
+      <path d="M56 8.5 h104" stroke="#0A1D3A" stroke-width="1.6"/>
+      <path d="M164 8.5 h26" stroke="#FF6A00" stroke-width="2.4"/>
+      <text x="56" y="26" font-family="Poppins, sans-serif" font-weight="700" font-size="15.5" letter-spacing="1.5" fill="#0A1D3A">STRATEGIC</text>
+      <text x="56.5" y="38.5" font-family="Poppins, sans-serif" font-weight="400" font-size="8.6" letter-spacing="4.1" fill="#36506B">FRANCHISING</text>
+      <path d="M56 42.5 h104" stroke="#0A1D3A" stroke-width="1.2"/>
+      <path d="M164 42.5 h26" stroke="#FF6A00" stroke-width="2"/>
+    </svg>
+  </a>
+  <div class="nav-links">
+    <a href="#top" class="active">Home</a>
+    <a href="#top">Opportunities</a>
+    <a href="#top">The Process</a>
+    <a href="#top">Podcast</a>
+    <a href="#top">About Josh</a>
+  </div>
+  <a class="nav-cta" href="#top">Schedule My Free Consultation</a>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#top">Home</a>
+  <a href="#top">Opportunities</a>
+  <a href="#top">The Process</a>
+  <a href="#top">Podcast</a>
+  <a href="#top">About Josh</a>
+  <a href="#top" class="mm-cta">Schedule My Free Consultation</a>
+</div>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="ghost-word" id="ghostWord" aria-hidden="true">FRANCHISING&nbsp;<span class="solid">·</span>&nbsp;FRANCHISING&nbsp;<span class="solid">·</span>&nbsp;FRANCHISING</div>
+
+  <div class="hero-wrap">
+
+    <div class="hero-copy" id="copy">
+      <span class="eyebrow" data-in><span class="tick"></span>Franchise Coaching · Free To Clients</span>
+      <h1>
+        <span class="hl"><span>Stop building</span></span>
+        <span class="hl"><span>someone else's dream.</span></span>
+        <span class="hl"><span class="emphasis">Start owning yours.<i class="swash" aria-hidden="true"></i></span></span>
+      </h1>
+      <p class="hero-lead" data-in>I grew up in franchising and I've lived every side of it. <strong>Now I help you find, vet, and own the right one.</strong></p>
+      <div class="hero-cta-row" data-in>
+        <a class="btn" id="magBtn" href="tel:+17867890744">Schedule My Free Consultation
+          <span class="btn-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5L13.5 8 9 12.5" stroke="#fff" stroke-width="1.7" stroke-linecap="square"/></svg></span>
+        </a>
+        <a class="btn-ghost" href="tel:+17867890744">Call (786) 789-0744</a>
+      </div>
+      <p class="risk" data-in>Free consultation · No obligation</p>
+    </div>
+
+    <div class="stage" id="stage" aria-label="Josh DuBois, your franchise coach">
+      <div class="glow" id="glow" aria-hidden="true"></div>
+      <div class="josh-wrap" id="joshWrap">
+        <img class="josh" src="assets/josh-hd.png" alt="Josh DuBois" width="1510" height="1952" fetchpriority="high">
+      </div>
+      <div class="fcard c-loc" id="cardLoc">
+        <div class="fnum"><span id="countLoc" data-target="2400">0</span><span class="sfx">+</span></div>
+        <div class="flbl">Locations his family helped scale</div>
+      </div>
+      <div class="fcard c-match" id="cardMatch">
+        <div class="fnum">3<span class="sfx">–</span>5</div>
+        <div class="flbl">Vetted matches built around you</div>
+      </div>
+      <span class="chip-free" id="chipFree"><span class="dot"></span>100% Free To You</span>
+      <div class="nameplate" id="namePlate">
+        <img src="assets/josh-avatar.jpg" alt="">
+        <div>
+          <div class="np-n">Josh DuBois</div>
+          <div class="np-r">Your Franchise Coach</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true"><span class="line"></span>Scroll</div>
+
+  <div class="belt" aria-label="Credentials">
+    <div class="belt-track" id="beltA"></div>
+    <div class="belt-track" id="beltB" aria-hidden="true"></div>
+  </div>
+</header>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var jump = location.search.indexOf('jump') !== -1;
+
+  /* mobile menu */
+  var burger = document.getElementById('burger');
+  var menu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      menu.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+    });
+  });
+
+  /* trust belt — canon items */
+  var TRUST = ['FranServe Certified Consultant','Second-Generation Franchising','Hundreds of Vetted Brands','SBA + ROBS Financing Ready','Nationwide Coverage','Free To Clients, Always'];
+  var beltHTML = TRUST.map(function(t){ return '<span class="belt-item"><span class="sq"></span>' + t + '</span>'; }).join('');
+  document.getElementById('beltA').innerHTML = beltHTML;
+  document.getElementById('beltB').innerHTML = beltHTML;
+
+  /* count-up */
+  var countEl = document.getElementById('countLoc');
+  function countFinal(){ countEl.textContent = (2400).toLocaleString('en-US'); }
+
+  var hasGsap = typeof gsap !== 'undefined';
+
+  if (reduced || !hasGsap){
+    document.querySelectorAll('[data-in], h1 .hl > span, .fcard, .chip-free, .nameplate, .josh-wrap, .swash').forEach(function(el){
+      el.classList.add('rm-final');
+    });
+    document.querySelector('.swash').style.transform = 'scaleX(1)';
+    countFinal();
+    return;
+  }
+
+  /* ---------- entrance ---------- */
+  gsap.set('[data-in]', {opacity:0, y:24});
+  gsap.set('h1 .hl > span', {yPercent:132});
+  gsap.set('#joshWrap', {opacity:0, y:70});
+  gsap.set(['#cardLoc','#cardMatch','#chipFree','#namePlate'], {opacity:0, y:26, scale:.94});
+  gsap.set('#ghostWord', {opacity:0});
+
+  var tl = gsap.timeline({defaults:{ease:'power4.out'}});
+  tl.to('#ghostWord', {opacity:1, duration:1.2, ease:'power2.out'}, 0)
+    .to('.eyebrow', {opacity:1, y:0, duration:.7}, .12)
+    .to('h1 .hl > span', {yPercent:0, duration:1.05, ease:'expo.out', stagger:.11}, .22)
+    .to('.swash', {scaleX:1, duration:.7, ease:'power3.inOut'}, 1.0)
+    .to('.hero-lead', {opacity:1, y:0, duration:.8}, .62)
+    .to('.hero-cta-row', {opacity:1, y:0, duration:.8}, .74)
+    .to('.risk', {opacity:1, y:0, duration:.8}, .84)
+    .to('#joshWrap', {opacity:1, y:0, duration:1.15, ease:'expo.out'}, .4)
+    .to('#namePlate', {opacity:1, y:0, scale:1, duration:.7, ease:'back.out(1.6)'}, 1.0)
+    .to('#cardLoc', {opacity:1, y:0, scale:1, duration:.7, ease:'back.out(1.6)'}, 1.12)
+    .to('#cardMatch', {opacity:1, y:0, scale:1, duration:.7, ease:'back.out(1.6)'}, 1.24)
+    .to('#chipFree', {opacity:1, y:0, scale:1, duration:.7, ease:'back.out(1.6)'}, 1.36);
+
+  /* count-up riding the timeline */
+  var cobj = {v:0};
+  tl.to(cobj, {v:2400, duration:2.1, ease:'power4.out', onUpdate:function(){
+    countEl.textContent = Math.round(cobj.v).toLocaleString('en-US');
+  }, onComplete:countFinal}, .9);
+
+  /* ---------- continuous life ---------- */
+  var loops = [];
+  loops.push(gsap.to('#cardLoc',   {y:'-=10', duration:3.2, ease:'sine.inOut', yoyo:true, repeat:-1}));
+  loops.push(gsap.to('#cardMatch', {y:'-=13', duration:3.8, ease:'sine.inOut', yoyo:true, repeat:-1, delay:.6}));
+  loops.push(gsap.to('#chipFree',  {y:'-=8',  duration:2.9, ease:'sine.inOut', yoyo:true, repeat:-1, delay:.3}));
+  loops.push(gsap.to('#ghostWord', {x:-340, duration:46, ease:'none', repeat:-1, yoyo:true}));
+  loops.push(gsap.to('#glow', {opacity:.72, duration:4.4, ease:'sine.inOut', yoyo:true, repeat:-1}));
+
+  /* ---------- mouse parallax ---------- */
+  var fine = window.matchMedia('(pointer:fine)').matches;
+  if (fine){
+    var qJosh = gsap.quickTo('#joshWrap', 'x', {duration:.9, ease:'power3.out'});
+    var qCards = gsap.utils.toArray(['#cardLoc','#cardMatch','#chipFree','#namePlate']).map(function(el){
+      return {x: gsap.quickTo(el, 'x', {duration:1.1, ease:'power3.out'}),
+              y2: gsap.quickTo(el, 'y', {duration:1.1, ease:'power3.out'})};
+    });
+    var qGhost = gsap.quickTo('#ghostWord', 'y', {duration:1.4, ease:'power3.out'});
+    window.addEventListener('mousemove', function(e){
+      var nx = (e.clientX / window.innerWidth) - .5;
+      var ny = (e.clientY / window.innerHeight) - .5;
+      qJosh(nx * 14);
+      qCards.forEach(function(q, i){ q.x(nx * (22 + i * 6) * -1); });
+      qGhost(ny * -18);
+    }, {passive:true});
+  }
+
+  /* ---------- magnetic CTA ---------- */
+  var mag = document.getElementById('magBtn');
+  if (fine && mag){
+    var mx = gsap.quickTo(mag, 'x', {duration:.4, ease:'power3.out'});
+    var my = gsap.quickTo(mag, 'y', {duration:.4, ease:'power3.out'});
+    mag.addEventListener('mousemove', function(e){
+      var r = mag.getBoundingClientRect();
+      mx((e.clientX - (r.left + r.width/2)) * .22);
+      my((e.clientY - (r.top + r.height/2)) * .3);
+    });
+    mag.addEventListener('mouseleave', function(){ mx(0); my(0); });
+  }
+
+  /* settle contract for headless capture */
+  if (jump){
+    tl.progress(1);
+    loops.forEach(function(l){ l.progress(0).pause(); });
+    countFinal();
+  }
+})();
+</script>
+</body>
+</html>
