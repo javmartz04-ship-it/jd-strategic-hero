@@ -129,11 +129,14 @@ a{color:inherit}
   background:var(--canvas);
   --belt-h:73px;
 }
-/* warm ambient glow behind Josh — lives INSIDE .stage so it tracks him at every viewport */
+/* his backdrop is a studio of light: a cool seamless-paper ellipse behind him,
+   a warm key low on his torso — lives INSIDE .stage so it tracks him everywhere */
 .glow{
   position:absolute;z-index:0;pointer-events:none;
-  left:-30%;right:-34%;top:-6%;bottom:-14%;
-  background:radial-gradient(48% 42% at 52% 58%, rgba(255,106,0,.14), rgba(255,138,61,.05) 55%, transparent 75%);
+  left:-34%;right:-38%;top:-10%;bottom:-14%;
+  background:
+    radial-gradient(46% 44% at 52% 46%, rgba(214,227,240,.55), rgba(234,241,248,.22) 55%, transparent 74%),
+    radial-gradient(40% 34% at 52% 66%, rgba(255,106,0,.13), rgba(255,138,61,.05) 55%, transparent 75%);
 }
 /* clean premium ground: two whisper-soft washes on white, no text, no texture */
 .hero::before{
@@ -142,16 +145,7 @@ a{color:inherit}
     radial-gradient(56% 60% at 82% 18%, var(--sky-soft) 0%, rgba(234,241,248,0) 62%),
     radial-gradient(44% 50% at 6% 92%, #F4F6F9 0%, rgba(244,246,249,0) 60%);
 }
-/* the logo's own geometry, blown up faint behind Josh — brand instead of a word */
-.geo{position:absolute;z-index:1;pointer-events:none;user-select:none;will-change:transform}
-.geo .sq{position:absolute;inset:0;border:1px solid rgba(10,29,58,.07)}
-.geo .sq.in2{inset:26px;border-color:rgba(10,29,58,.045)}
-.geo .br{
-  position:absolute;right:-1px;bottom:-1px;width:19%;height:19%;
-  border-right:2px solid rgba(255,106,0,.38);border-bottom:2px solid rgba(255,106,0,.38);
-}
-.geo.g1{right:7vw;top:14%;width:clamp(300px,30vw,540px);aspect-ratio:1}
-.geo.g2{right:33vw;top:52%;width:clamp(150px,13vw,240px);aspect-ratio:1}
+/* no geometry behind him — his backdrop is light itself (see .josh-aura + .glow) */
 
 .hero-wrap{
   position:relative;z-index:5;width:100%;max-width:1440px;margin:0 auto;
@@ -236,8 +230,18 @@ h1 .emphasis .swash{
   will-change:transform;
 }
 .josh{
+  position:relative;z-index:2;
   height:100%;width:auto;max-width:none;
-  filter:drop-shadow(0 34px 60px rgba(10,29,58,.30));
+  filter:drop-shadow(0 34px 60px rgba(10,29,58,.32));
+}
+/* the aura: Josh's own image, blurred wide open behind him — an organic halo in
+   his own palette that lifts him off the white like a lit studio backdrop */
+.josh-aura{
+  position:absolute;left:50%;bottom:-2%;z-index:1;
+  height:104%;width:auto;max-width:none;
+  transform:translateX(-50%);
+  filter:blur(52px) saturate(1.25) brightness(1.06);
+  opacity:.5;pointer-events:none;user-select:none;
 }
 /* soft floor fade anchored to the layout (not the stage): sits just above the belt,
    so Josh melts into white before the seam even while the exit scrub moves him */
@@ -358,8 +362,6 @@ h1 .emphasis .swash{
   .nameplate img{width:50px;height:50px}
   .nameplate .np-n{font-size:16px}
   .nameplate .np-r{font-size:10px}
-  .geo.g1{width:clamp(480px,32vw,640px)}
-  .geo.g2{width:clamp(220px,14vw,300px)}
   .belt-track{gap:72px}
   .belt-item{font-size:12.5px}
   .scroll-cue{bottom:118px}
@@ -407,7 +409,6 @@ h1 .emphasis .swash{
   .fcard.c-match{right:0}
   .nameplate{display:none}
   .scroll-cue{display:none}
-  .geo{display:none}
   .hero{padding-bottom:0;--belt-h:58px}
 }
 @media (max-width:640px){
@@ -951,8 +952,6 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
 
 <!-- ================= HERO ================= -->
 <header class="hero" id="top">
-  <div class="geo g1" id="geo1" aria-hidden="true"><span class="sq"></span><span class="sq in2"></span><span class="br"></span></div>
-  <div class="geo g2" id="geo2" aria-hidden="true"><span class="sq"></span></div>
 
   <div class="hero-wrap">
 
@@ -976,6 +975,7 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
     <div class="stage" id="stage" aria-label="Josh DuBois, your franchise coach">
       <div class="glow" id="glow" aria-hidden="true"></div>
       <div class="josh-wrap" id="joshWrap">
+        <img class="josh-aura" src="assets/josh-hd.png" alt="" aria-hidden="true" width="1510" height="1952">
         <img class="josh" src="assets/josh-hd.png" alt="Josh DuBois" width="1510" height="1952" fetchpriority="high">
       </div>
       <div class="fcard c-loc" id="cardLoc">
@@ -1367,7 +1367,7 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
   var hasGsap = typeof gsap !== 'undefined';
 
   if (reduced || !hasGsap){
-    document.querySelectorAll('[data-in], h1 .hl > span, .fcard, .chip-free, .nameplate, .josh-wrap, .swash, .geo').forEach(function(el){
+    document.querySelectorAll('[data-in], h1 .hl > span, .fcard, .chip-free, .nameplate, .josh-wrap, .swash').forEach(function(el){
       el.classList.add('rm-final');
     });
     document.querySelector('.swash').style.transform = 'scaleX(1)';
@@ -1380,10 +1380,10 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
   gsap.set('h1 .hl > span', {yPercent:132});
   gsap.set('#joshWrap', {opacity:0, y:70});
   gsap.set(['#cardLoc','#cardMatch','#chipFree','#namePlate'], {opacity:0, y:26, scale:.94});
-  gsap.set('.geo', {opacity:0, scale:.96});
+  gsap.set('.josh-aura', {opacity:0});
 
   var tl = gsap.timeline({defaults:{ease:'power4.out'}});
-  tl.to('.geo', {opacity:1, scale:1, duration:1.4, ease:'power2.out', stagger:.15}, 0)
+  tl.to('.josh-aura', {opacity:.5, duration:1.6, ease:'power2.out'}, .5)
     .to('.eyebrow', {opacity:1, y:0, duration:.7}, .12)
     .to('h1 .hl > span', {yPercent:0, duration:1.05, ease:'expo.out', stagger:.11}, .22)
     .to('.swash', {scaleX:1, duration:.7, ease:'power3.inOut'}, 1.0)
@@ -1407,8 +1407,7 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
   loops.push(gsap.to('#cardLoc',   {y:'-=10', duration:3.2, ease:'sine.inOut', yoyo:true, repeat:-1}));
   loops.push(gsap.to('#cardMatch', {y:'-=13', duration:3.8, ease:'sine.inOut', yoyo:true, repeat:-1, delay:.6}));
   loops.push(gsap.to('#chipFree',  {y:'-=8',  duration:2.9, ease:'sine.inOut', yoyo:true, repeat:-1, delay:.3}));
-  loops.push(gsap.to('#geo1', {scale:1.04, duration:9, ease:'sine.inOut', yoyo:true, repeat:-1}));
-  loops.push(gsap.to('#geo2', {scale:1.06, duration:11, ease:'sine.inOut', yoyo:true, repeat:-1, delay:1.2}));
+  loops.push(gsap.to('.josh-aura', {opacity:.62, duration:5.5, ease:'sine.inOut', yoyo:true, repeat:-1}));
   loops.push(gsap.to('#glow', {opacity:.72, duration:4.4, ease:'sine.inOut', yoyo:true, repeat:-1}));
 
   /* ---------- mouse parallax ---------- */
@@ -1419,15 +1418,11 @@ footer{background:var(--navy-deep);color:#fff;position:relative;overflow:hidden;
       return {x: gsap.quickTo(el, 'x', {duration:1.1, ease:'power3.out'}),
               y2: gsap.quickTo(el, 'y', {duration:1.1, ease:'power3.out'})};
     });
-    var qGeo1 = gsap.quickTo('#geo1', 'y', {duration:1.4, ease:'power3.out'});
-    var qGeo2 = gsap.quickTo('#geo2', 'y', {duration:1.6, ease:'power3.out'});
     window.addEventListener('mousemove', function(e){
       var nx = (e.clientX / window.innerWidth) - .5;
       var ny = (e.clientY / window.innerHeight) - .5;
       qJosh(nx * 14);
       qCards.forEach(function(q, i){ q.x(nx * (22 + i * 6) * -1); });
-      qGeo1(ny * -16);
-      qGeo2(ny * 12);
     }, {passive:true});
   }
 
@@ -1502,8 +1497,6 @@ gsap.registerPlugin(ScrollTrigger);
 /* hero exit: gentle depth as you leave the fold (GSAP owns these transforms) */
 if (!prefersReduced){
   gsap.to('#stage', { y: 60, ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.geo', { yPercent: -26, ease: 'none',
     scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
   gsap.to('.scroll-cue', { opacity: 0, ease: 'none',
     scrollTrigger: { trigger: '.hero', start: 'top top', end: '25% top', scrub: true } });
